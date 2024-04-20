@@ -5,7 +5,7 @@ import Column from "./Column";
 import EmptyBoard from "./EmptyBoard";
 import Sidebar from "./Sidebar";
 
-function Home() {
+function Home({searchQuery}) {
   const [windowSize, setWindowSize] = useState([
     window.innerWidth,
     window.innerHeight,
@@ -26,11 +26,18 @@ function Home() {
   const [isBoardModalOpen, setIsBoardModalOpen] = useState(false);
 
   const boards = useSelector((state) => state.boards);
-  const board = boards.find((board) => board.isActive === true);
+  const board = boards?.find((board) => board.isActive === true);
   const columns = board.columns;
 
   const [isSideBarOpen, setIsSideBarOpen] = useState(true);
-
+  const filteredColumns = columns.filter((column) => {
+    // Check if any task title in the column matches the search query
+    const tasksMatched = column.tasks.some((task) =>
+      task.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    // Return true if any task matches the search query
+    return tasksMatched;
+  });
   return (
     <div
       className={
@@ -50,16 +57,16 @@ function Home() {
 
       {/* Columns Section */}
 
-      {columns.length > 0 ? (
+      {filteredColumns.length > 0 ? (
         <>
-          {columns.map((col, index) => (
+          {filteredColumns?.map((col, index) => (
             <Column key={index} colIndex={index} />
           ))}
           <div
             onClick={() => {
               setIsBoardModalOpen(true);
             }}
-            className=" h-screen dark:bg-[#2b2c3740] flex justify-center items-center font-bold text-2xl hover:text-[#635FC7] transition duration-300 cursor-pointer bg-[#E9EFFA] scrollbar-hide mb-2   mx-5 pt-[90px] min-w-[280px] text-[#828FA3] mt-[135px] rounded-lg "
+            className=" h-[200px] dark:bg-[#2b2c3740] flex justify-center items-centertext-center font-bold text-2xl hover:text-[#635FC7] transition duration-300 cursor-pointer bg-[#E9EFFA] scrollbar-hide mb-2   mx-5 pt-[90px] min-w-[280px] text-[#828FA3] mt-[135px] rounded-lg "
           >
            Add Column
           </div>

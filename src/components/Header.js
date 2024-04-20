@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import DeleteModal from "../modals/DeleteModal";
 import boardsSlice from "../redux/boardsSlice";
 
-function Header({ setIsBoardModalOpen, isBoardModalOpen }) {
+function Header({ setIsBoardModalOpen, isBoardModalOpen,searchQuery , setSearchQuery }) {
   const [openDropdown, setOpenDropdown] = useState(false);
   const [isElipsisMenuOpen, setIsElipsisMenuOpen] = useState(false);
   const [boardType, setBoardType] = useState("add");
@@ -69,7 +69,15 @@ function Header({ setIsBoardModalOpen, isBoardModalOpen }) {
             />
           </div>
         </div>
-
+        <div>
+          <input
+              type="text"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="border-2 border-[#46219A] w-[300px] p-2 rounded" // Add margin-right for spacing
+            />
+        </div>
         {/* Right Side */}
 
         <div className=" flex space-x-4 items-center md:space-x-6 ">
