@@ -79,7 +79,7 @@ function Header({ setIsBoardModalOpen, isBoardModalOpen }) {
               setIsTaskModalOpen((prevState) => !prevState);
             }}
           >
-            + Add New Task
+            New Task
           </button>
           <button
             onClick={() => {

@@ -27,9 +27,6 @@ function Column({ colIndex }) {
   useEffect(() => {
     setColor(shuffle(colors).pop())
   }, [dispatch]);
-
-
-
   const handleOnDrop = (e) => {
     const { prevColIndex, taskIndex } = JSON.parse(
       e.dataTransfer.getData("text")
