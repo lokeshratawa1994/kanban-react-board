@@ -69,14 +69,15 @@ function Header({ setIsBoardModalOpen, isBoardModalOpen,searchQuery , setSearchQ
             />
           </div>
         </div>
-        <div>
+        {/* Center input search */}
+        <div className="mt-4 md:mt-0 flex-grow md:mr-4 flex justify-center"> {/* Add margin-top for mobile and margin-right for desktop */}
           <input
-              type="text"
-              placeholder="Search..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="border-2 border-[#46219A] w-[300px] p-2 rounded" // Add margin-right for spacing
-            />
+            type="text"
+            placeholder="Search..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="border-2 border-[#46219A] w-full md:w-[300px] p-2 rounded" // Add margin-right for spacing
+          />
         </div>
         {/* Right Side */}
 
