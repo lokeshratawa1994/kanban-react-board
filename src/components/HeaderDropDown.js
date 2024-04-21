@@ -34,7 +34,7 @@ function HeaderDropDown({ setOpenDropdown, setIsBoardModalOpen }) {
     >
       {/* DropDown Modal */}
 
-      <div className=" bg-white dark:bg-[#2b2c37] shadow-md shadow-[#364e7e1a]  w-full   py-4 rounded-xl">
+      <div className=" bg-white dark:bg-[#3E3F4E] shadow-md shadow-[#364e7e1a]  w-full   py-4 rounded-xl">
         <h3 className=" dark:text-gray-300 text-gray-600 font-semibold mx-4 mb-8 ">
           ALL BOARDS ({boards?.length})
         </h3>

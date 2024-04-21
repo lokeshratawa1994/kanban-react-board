@@ -1,4 +1,3 @@
-import { shuffle } from "lodash";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import boardsSlice from "../redux/boardsSlice";
@@ -17,16 +16,17 @@ function Column({ colIndex }) {
     "bg-sky-500",
   ];
 
-  
-
+  const [color, setColor] = useState(null);
+  const [sortBy, setSortBy] = useState("default"); // State to track the selected sorting criteria
   const dispatch = useDispatch();
-  const [color, setColor] = useState(null)
   const boards = useSelector((state) => state.boards);
   const board = boards.find((board) => board.isActive === true);
   const col = board.columns.find((col, i) => i === colIndex);
+
   useEffect(() => {
-    setColor(shuffle(colors).pop())
+    setColor(colors[Math.floor(Math.random() * colors.length)]);
   }, [dispatch]);
+
   const handleOnDrop = (e) => {
     const { prevColIndex, taskIndex } = JSON.parse(
       e.dataTransfer.getData("text")
@@ -43,19 +43,52 @@ function Column({ colIndex }) {
     e.preventDefault();
   };
 
+  // Function to sort tasks based on the selected criteria
+  const sortTasks = (tasks, sortBy) => {
+    switch (sortBy) {
+      case "title":
+        return tasks.slice().sort((a, b) => a.title.localeCompare(b.title));
+      case "status":
+        return tasks.slice().sort((a, b) => a.status.localeCompare(b.status));
+      // Add more sorting criteria as needed
+      default:
+        return tasks; // Default: no sorting
+    }
+  };
+
+  // Update sorting when sortBy changes
+  useEffect(() => {
+    // Ensure to trigger re-render when sortBy changes
+    sortTasks(col.tasks, sortBy);
+  }, [sortBy, col.tasks]);
+
   return (
     <div
       onDrop={handleOnDrop}
       onDragOver={handleOnDragOver}
-      className="scrollbar-hide   mx-5 pt-[90px] min-w-[280px] "
+      className="scrollbar-hide mx-5 pt-[90px] min-w-[280px]"
     >
-      <p className=" font-semibold flex  items-center  gap-2 tracking-widest md:tracking-[.2em] text-[#828fa3]">
-        <div className={`rounded-full w-4 h-4 ${color} `} />
-        {col.name} ({col.tasks.length})
-      </p>
-
-      {col.tasks.map((task, index) => (
-        <Task key={index} taskIndex={index} colIndex={colIndex} />
+      {/* Sorting Dropdown */}
+      <div className="flex justify-between items-center mb-2">
+        <p className="font-semibold flex items-center gap-2 tracking-widest md:tracking-[.2em] text-[#828fa3]">
+          <div className={`rounded-full w-4 h-4 ${color}`} />
+          {col.name} ({col.tasks.length})
+        </p>
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+          className="px-2 py-1 border border-gray-300 rounded-md"
+        >
+          <option value="default">Default</option>
+          <option value="title">Title</option>
+          <option value="status">Status</option>
+          {/* Add more sorting options as needed */}
+        </select>
+      </div>
+      {/* Render sorted tasks based on the selected criteria */}
+      {sortTasks(col.tasks, sortBy).map((task, index) => (
+        console.log('sssssssssss',task),
+        <Task key={index} taskIndex={index} task={task} colIndex={colIndex} />
       ))}
     </div>
   );

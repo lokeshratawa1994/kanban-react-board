@@ -36,6 +36,17 @@
                   "isCompleted": false
                 }
               ]
+            },
+            {
+              "title": "Alpha Testing",
+              "description": "Do Alpha testing in first phase",
+              "status": "Todo",
+              "subtasks": [
+                {
+                  "title": "UI testing",
+                  "isCompleted": false
+                }
+              ]
             }
           ]
         },
